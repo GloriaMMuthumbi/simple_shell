@@ -1,6 +1,15 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+/**
+ * marcos
+ */
+#define BUFSIZE 1024
+#define PRINT(c) (write(STDOUT_FILENO, c, strlen(c)))
+
+/**
+ * imported libraries
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
