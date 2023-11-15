@@ -9,6 +9,7 @@ int main(void)
 
 	while (1)
 	{
+		display_prompt();
 		command = read_command();
 
 		if (command != NULL)

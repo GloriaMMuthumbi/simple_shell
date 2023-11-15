@@ -9,8 +9,6 @@ char *read_command(void)
 	size_t bufsize = 0;
 	ssize_t characters;
 
-	display_prompt();
-
 	characters = getline(&line, &bufsize, stdin);
 
 	if (characters == -1)
@@ -71,7 +69,8 @@ void execute_command(char *command)
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
+		if (waitpid(pid, &status, 0) == -1)
+			perror("wait failed");
 		free(args);
 	}
 }

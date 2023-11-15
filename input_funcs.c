@@ -5,5 +5,6 @@
  */
 void display_prompt(void)
 {
-	PRINT("cisfun$ ");
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, "#cisfun$", str_len("#cisfun$"));
 }
