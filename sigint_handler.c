@@ -8,6 +8,6 @@
 void sigint_handler(int signum)
 {
 	(void)signum;
-	write(STDOUT_FILENO, "\nExiting...\n", 13);
+	write(STDOUT_FILENO, "\n", 2);
 	exit(EXIT_SUCCESS);
 }
