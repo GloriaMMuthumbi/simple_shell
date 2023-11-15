@@ -28,7 +28,7 @@ int execute_command(char *command)
 		if (execve(command, args, NULL) == -1)
 		{
 			/*perror("command execution failed");*/
-			perror("./shell");
+			perror("hsh");
 			free(args);
 			exit(EXIT_FAILURE);
 		}
