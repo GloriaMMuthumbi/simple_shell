@@ -18,6 +18,7 @@ int execute_command(char *command)
 	if (child_process_id == 0)
 	{
 		char **args = malloc(2 * sizeof(char *));
+
 		if (args == NULL)
 		{
 			perror("memory allocation failed");

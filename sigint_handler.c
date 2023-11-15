@@ -1,6 +1,6 @@
 #include "main.h"
 /**
- * sigint_handler = it handles SIGINT
+ * sigint_handler - it handles SIGINT
  * @signum: integer for signal
  * Return: returns nothing
  */
