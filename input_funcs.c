@@ -6,5 +6,5 @@
 void display_prompt(void)
 {
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "#cisfun$", str_len("#cisfun$"));
+		write(STDOUT_FILENO, "cisfun$ ", sizeof("cisfun$ ") - 1);
 }
