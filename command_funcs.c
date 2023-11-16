@@ -74,6 +74,7 @@ void execute_command(char *command)
 			free(args);
 			exit(EXIT_FAILURE);
 		}
+		fflush(stdout);
 	}
 	else
 	{
