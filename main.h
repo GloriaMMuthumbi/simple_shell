@@ -27,6 +27,5 @@ void display_prompt(void);
 /**Command functions*/
 char *read_command(void);
 void execute_command(char *command);
-void _exec_command1(char *command);
 
 #endif
