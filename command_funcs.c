@@ -95,7 +95,7 @@ void _exec_command1(char *command)
 {
 	pid_t child_pid;
 	char *token, *path, **cmd_and_args;
-	char *arguments[MAX_ARGS], *env[];
+	char *arguments[MAX_ARGS];
 	int status, i = 0;
 
 	token = strtok(command, " ");
@@ -126,8 +126,7 @@ void _exec_command1(char *command)
 	}
 	if (child_pid == 0)
 	{
-		envp[] = { NULL };
-		execve(path, cmd_and_args, envp);
+		execve(path, cmd_and_args, NULL);
 		perror("./shell");
 		exit(1);
 	}
