@@ -83,3 +83,52 @@ void execute_command(char *command)
 		free(args);
 	}
 }
+/** 
+ * _exec_command1 - a function that takes the user commandline input,
+ * tokenize it, store it in an array and execuit it in a chiled process
+ * and displays yhe result of the chiled befor the parent process.
+ *
+ * Return: No return value (void).
+ *
+ */
+void _exec_command1(char *command)
+{
+	pid_t child_pid;
+	char *token, *path, **cmd_and_args;
+	char *arguments[MAX_ARGUMENTS];
+	int status, i = 0;
+	token = strtok(command, " ");
+	while (token && i < MAX_ARGUMENTS - 1)
+	{
+		arguments[i] = token;
+		token = strtok(NULL, " ");
+		i++;
+	}
+	arguments[i] = NULL;
+	if (i == 0)
+	{
+		return; /*No command*/
+	}
+	if (i > 1)
+	{
+		perror("./shell");
+		return;
+	}
+		path = arguments[0]; /*1st arg is path*/
+		cmd_and_args = &arguments[1];
+		child_pid = fork();
+	if (child_pid == -1)
+	{
+		perror("Fork error");
+		exit(1);
+	}
+	if (child_pid == 0)
+	{
+		char *envp[] = { NULL };
+		execve(path, cmd_and_args, envp);
+		perror("./shell");
+		exit(1);
+	}
+	else
+		waitpid(child_pid, &status, 0);
+}
