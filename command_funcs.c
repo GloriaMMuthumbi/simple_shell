@@ -30,7 +30,6 @@ char *read_command(void)
 	if (characters > 0 && line[characters - 1] == '\n')
 		line[characters - 1] = '\0';
 
-
 	return (line);
 }
 
