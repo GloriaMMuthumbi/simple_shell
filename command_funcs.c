@@ -43,8 +43,8 @@ void execute_command(char *command)
 	pid_t pid;
 	int status, i = 0;
 	char *token;
-
 	char **args = malloc((MAX_ARGS + 1) * sizeof(char *));
+
 	if (args == NULL)
 	{
 		perror("memory allocation error");
@@ -66,7 +66,7 @@ void execute_command(char *command)
 		free(args);
 		return;
 	}
-	if(pid == 0)
+	if (pid == 0)
 	{
 		fflush(stdout);
 		if (execve(command, args, environ) == -1)
@@ -83,7 +83,7 @@ void execute_command(char *command)
 		free(args);
 	}
 }
-/** 
+/**
  * _exec_command1 - a function that takes the user commandline input,
  * tokenize it, store it in an array and execuit it in a chiled process
  * and displays yhe result of the chiled befor the parent process.
@@ -95,10 +95,12 @@ void _exec_command1(char *command)
 {
 	pid_t child_pid;
 	char *token, *path, **cmd_and_args;
-	char *arguments[MAX_ARGUMENTS];
+	char *arguments[MAX_ARGS], *env[];
 	int status, i = 0;
+
 	token = strtok(command, " ");
-	while (token && i < MAX_ARGUMENTS - 1)
+
+	while (token && i < MAX_ARGS - 1)
 	{
 		arguments[i] = token;
 		token = strtok(NULL, " ");
@@ -124,7 +126,7 @@ void _exec_command1(char *command)
 	}
 	if (child_pid == 0)
 	{
-		char *envp[] = { NULL };
+		envp[] = { NULL };
 		execve(path, cmd_and_args, envp);
 		perror("./shell");
 		exit(1);
