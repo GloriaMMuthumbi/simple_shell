@@ -68,7 +68,6 @@ void execute_command(char *command)
 	}
 	if(pid == 0)
 	{
-		fflush(stdout);
 		if (execve(command, args, environ) == -1)
 		{
 			perror("execve failed");
