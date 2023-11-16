@@ -41,9 +41,9 @@ char *read_command(void)
  */
 void execute_command(char *command)
 {
-	pid_t pid, wpid;
-	int status;/*, i = 0;*/
-	/*char *token;*/
+	pid_t pid;
+	int status, i = 0;
+	char *token;
 	char **args = malloc((MAX_ARGS + 1) * sizeof(char *));
 
 	if (args == NULL)
@@ -51,16 +51,14 @@ void execute_command(char *command)
 		perror("memory allocation error");
 		return;
 	}
-	/*token = str_tok(command, " ");
+	token = str_tok(command, " ");
 	while (token != NULL && i < MAX_ARGS)
 	{
 		args[i] = str_dup(token);
 		token = str_tok(NULL, " ");
 		i++;
 	}
-	args[i] = NULL;*/
-	args[0] = command;
-	args[1] = NULL;
+	args[i] = NULL;
 
 	pid = fork();
 	if (pid == -1)
@@ -71,25 +69,19 @@ void execute_command(char *command)
 	}
 	if (pid == 0)
 	{
+		fflush(stdout);
 		if (execve(command, args, environ) == -1)
 		{
 			perror("execve failed");
 			free(args);
 			exit(EXIT_FAILURE);
 		}
-		fflush(stdout);
+		/*fflush(stdout);*/
 	}
 	else
 	{
-		/*if (waitpid(pid, &status, 0) == -1)
+		if (waitpid(pid, &status, 0) == -1)
 			perror("wait failed");
-		free(args);*/
-		do
-		{
-			wpid = waitpid(pid, &status, WUNTRACED);
-		}
-		while (!WIFEXITED(status) && !WIFSIGNALED(status));
-		(void)wpid;
 		free(args);
 	}
 }
