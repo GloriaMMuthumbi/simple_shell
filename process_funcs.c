@@ -18,7 +18,7 @@ void child_process(char *command, char **args, int pipe_fd[2])
 		free(args);
 		exit(EXIT_FAILURE);
 	}
-	fflush(stdout);
+	/*fflush(stdout);*/
 }
 
 /**
@@ -35,11 +35,15 @@ void parent_process(int pipe_fd[2])
 
 	while ((read_bytes = read(pipe_fd[0], buffer, sizeof(buffer))) > 0)
 	{
-		while (read_bytes > 0 && (buffer[read_bytes - 1] == '\n'
-					|| buffer[read_bytes - 1] == ' '
-					|| buffer[read_bytes - 1] == '\t'))
+		while (read_bytes > 0 && (buffer[read_bytes -1] == ' '
+					|| buffer[read_bytes - 1] == '\t'
+					|| buffer[read_bytes - 1] == '\n'))
 			--read_bytes;
 		write(STDOUT_FILENO, buffer, read_bytes);
 	}
+
+	if (read_bytes == -1)
+		perror("read failed");
+		
 	close(pipe_fd[0]);
 }

@@ -3,7 +3,7 @@
 
 extern char **environ;
 
-#define MAX_ARGS 100
+#define MAX_ARGS 1000
 #define PRINT(c) (write(STDOUT_FILENO, c, str_len(c)))
 #define DELIM " \t\r\n\a"
 
@@ -14,6 +14,7 @@ extern char **environ;
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <fcntl.h>
 
 /**String functions*/
 int str_len(char *s);

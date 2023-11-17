@@ -42,7 +42,8 @@ void execute_command(char *command)
 {
 	pid_t pid;
 	int pipe_fd[2];
-	int status;
+	int status, i = 0;
+	char *token;
 	char **args = malloc((MAX_ARGS + 1) * sizeof(char *));
 
 	if (pipe(pipe_fd) == -1)
@@ -56,8 +57,14 @@ void execute_command(char *command)
 		perror("memory allocation error");
 		return;
 	}
-	args[0] = command;
-	args[1] = NULL;
+	token = str_tok(command, " ");
+	while (token != NULL && i < MAX_ARGS)
+	{
+		args[i] = str_dup(token);
+		token = str_tok(NULL, " ");
+		i++;
+	}
+	args[i] = NULL;
 
 	pid = fork();
 	if (pid == -1)
