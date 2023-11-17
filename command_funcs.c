@@ -28,7 +28,7 @@ char *read_command(void)
 	}
 
 	if (characters > 0 && line[characters - 1] == '\n')
-		line[characters - 1] = '\0';
+	line[characters - 1] = '\0';
 
 	return (line);
 }
@@ -41,23 +41,21 @@ char *read_command(void)
 void execute_command(char *command)
 {
 	pid_t pid;
-	int status;/*, i = 0;
-	char *token;*/
+	int pipe_fd[2];
+	int status;
 	char **args = malloc((MAX_ARGS + 1) * sizeof(char *));
+
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("pipe failed");
+		return;
+	}
 
 	if (args == NULL)
 	{
 		perror("memory allocation error");
 		return;
 	}
-	/*token = str_tok(command, " ");
-	while (token != NULL && i < MAX_ARGS)
-	{
-		args[i] = str_dup(token);
-		token = str_tok(NULL, " ");
-		i++;
-	}
-	args[i] = NULL;*/
 	args[0] = command;
 	args[1] = NULL;
 
@@ -70,18 +68,14 @@ void execute_command(char *command)
 	}
 	if (pid == 0)
 	{
-		if (execve(command, args, environ) == -1)
-		{
-			perror("execve failed");
-			free(args);
-			exit(EXIT_FAILURE);
-		}
-		fflush(stdout);
+		child_process(command, args, pipe_fd);
 	}
 	else
 	{
+		parent_process(pipe_fd);
 		if (waitpid(pid, &status, 0) == -1)
 			perror("wait failed");
 		free(args);
 	}
 }
+
